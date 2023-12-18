@@ -112,4 +112,17 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+    |--------------------------------------------------------------------------
+    | API Token Key
+    |--------------------------------------------------------------------------
+    |
+    | Define the API token key to be used for API authentication.
+    |
+    */
+
+    'api' => [
+        'token' => env('API_TOKEN'),
+    ],
+
 ];
