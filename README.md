@@ -38,7 +38,9 @@ There is a seperate API enpoint created in this App that can be used to get the 
 The enpoint will accept only one boolean parameter called `fresh`. This parmater is used to tell the system to generate a new set of quotes instead of using the cached ones. If this parameter is not present in the body or it's value is set to `false`, then the API will return the cached values.
 
 URL: `/api/quotes`
+
 Type: `GET`
+
 Body:
 
 ```json
@@ -46,6 +48,7 @@ Body:
     "fresh": true // optional
 }
 ```
+
 Example Response (200):
  ```json
 {
@@ -61,7 +64,8 @@ Example Response (200):
 }
 ```
 
-As this endpoint fires multiple API calls to another third party servive, there can be errors. If this type of error occurs then the following message will be returned
+As this endpoint fires multiple API calls to another third party servive, there can be errors. If this type of error occurs then the following message will be returned.
+
 Example Error Response (500):
  ```json
 {
