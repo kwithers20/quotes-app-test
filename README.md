@@ -12,7 +12,7 @@ This is the quotes app test
 
 ## Installation
 
-Clone the repo to your desired location (Server/Local). Once all of the code is compied, go into the folder and run `composer install`. This will install all dependancies needed.
+Clone the repo to your desired location (Server/Local). Once all of the code is copied, go into the folder and run `composer install`. This will install all dependancies needed.
 
 ## Setting up the environment
 
