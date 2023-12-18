@@ -1,66 +1,75 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Quotes App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is the quotes app test
 
-## About Laravel
+## Table of contents
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Installation](#installation)
+- [Setting up the environment](#setting-up-the-environment)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Tests](#tests)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Clone the repo to your desired location (Server/Local). Once all of the code is compied, go into the folder and run `composer install`. This will install all dependancies needed.
 
-## Learning Laravel
+## Setting up the environment
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Inside the Laravel based application, there is a `.env.example` file. Make a copy of this file in the exact same location and name the file `.env`.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+There are only a couple of things needed to be updated in this new `.env` file. 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Run `php artisan key:generate` to create a new application key
+2. Update the variable `API_TOKEN` to a string of your choosing.
 
-## Laravel Sponsors
+## Getting started
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+For ease, I have created a frontend to easily use this App. Upon initial page load, it will call the API and show 5 quotes. There is a cache solution in place to keep the same 5 quotes if the page is reloaded. However, clicking the 'Generate' button will clear the cache and respond with a new set of quotes.
 
-### Premium Partners
+To access this page, just go to the main URL you have setup for this project.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Blade, Tailwind and JS was used for this.
 
-## Contributing
+## Usage
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+There is a seperate API enpoint created in this App that can be used to get the raw data. When calling this API, you will need to pass an `Authorization` header with the value you defined under the `API_TOKEN` withing your `.env` file earlier.
 
-## Code of Conduct
+The enpoint will accept only one boolean parameter called `fresh`. This parmater is used to tell the system to generate a new set of quotes instead of using the cached ones. If this parameter is not present in the body or it's value is set to `false`, then the API will return the cached values.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+URL: `/api/quotes`
+Type: `GET`
+Body:
 
-## Security Vulnerabilities
+```json
+{
+    "fresh": true // optional
+}
+```
+Example Response (200):
+ ```json
+{
+	"success": true,
+	"message": "Quotes retrieved successfully",
+	"data": [
+		"We used to diss Michael Jackson the media made us call him crazy ... then they killed him",
+		"Shut the fuck up I will fucking laser you with alien fucking eyes and explode your fucking head",
+		"I'm giving all Good music artists back the 50% share I have of their masters",
+		"If I don't scream, if I don't say something then no one's going to say anything.",
+		"I watch Bladerunner on repeat"
+	]
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+As this endpoint fires multiple API calls to another third party servive, there can be errors. If this type of error occurs then the following message will be returned
+Example Error Response (500):
+ ```json
+{
+	"success": false,
+	"message": "Error message goes here",
+}
+```
 
-## License
+## Tests
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+There a couple of tests around this code. Run `php artisan test` from within the terminal to run these tests.
